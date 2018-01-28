@@ -3,4 +3,5 @@ Rails.application.routes.draw do
   post 'signup', to: 'users#create'
 
   get 'events', to: 'events#index'
+  post 'events', to: 'events#create'
 end

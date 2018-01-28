@@ -22,4 +22,54 @@ RSpec.describe 'Events API', type: :request do
     end
   end
 
+  describe 'POST /events' do
+    let(:valid_attributes) {
+      { name: 'My awesome event', date: '2018-04-23T18:25:43.511Z' }.to_json
+    }
+
+    context 'when the request is valid' do
+      before { post '/events', params: valid_attributes, headers: headers }
+
+      it 'creates a event' do
+        expect(json['name']).to eq('My awesome event')
+      end
+
+      it 'returns status code 201' do
+        expect(response).to have_http_status(201)
+      end
+    end
+
+    context 'when the date is missing' do
+      let(:invalid_attributes) {
+        { name: 'My awesome event' }.to_json
+      }
+      before { post '/events', params: invalid_attributes, headers: headers }
+
+      it 'returns status code 422' do
+        expect(response).to have_http_status(422)
+      end
+
+      it 'returns a validation failure message' do
+        expect(response.body)
+          .to match(/Validation failed: Date can't be blank/)
+      end
+    end
+
+    context 'when the name is missing' do
+      let(:invalid_attributes) {
+        { date: '2018-04-23T18:25:43.511Z' }.to_json
+      }
+      before { post '/events', params: invalid_attributes, headers: headers }
+
+      it 'returns status code 422' do
+        expect(response).to have_http_status(422)
+      end
+
+      it 'returns a validation failure message' do
+        expect(response.body)
+          .to match(/Validation failed: Name can't be blank/)
+      end
+    end
+  end
+
 end
