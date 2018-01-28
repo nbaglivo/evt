@@ -116,4 +116,41 @@ RSpec.describe 'Events API', type: :request do
     end
   end
 
+  describe 'DELETE /events/:id' do
+    before { delete "/events/#{event_id}", params: {}, headers: headers }
+
+    context 'when the record exists' do
+      context 'when the record belongs to the authenticated user' do
+
+        it 'returns status code 204' do
+          expect(response).to have_http_status(204)
+        end
+      end
+
+      context 'when the record does not belong to the authenticated user' do
+        let(:event_id) { other_user_events.first.id }
+
+        it 'returns status code 404' do
+          expect(response).to have_http_status(404)
+        end
+
+        it 'returns a not found message' do
+          expect(response.body).to match(/Couldn't find Event/)
+        end
+      end
+    end
+
+    context 'when the record does not exist' do
+      let(:event_id) { 100 }
+
+      it 'returns status code 404' do
+        expect(response).to have_http_status(404)
+      end
+
+      it 'returns a not found message' do
+        expect(response.body).to match(/Couldn't find Event/)
+      end
+    end
+
+  end
 end
