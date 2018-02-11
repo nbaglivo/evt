@@ -3,10 +3,10 @@ require 'rails_helper'
 RSpec.describe 'Events API', type: :request do
   let(:user) { create(:user) }
   let!(:user_events) { create_list(:event, 10, owner: user) }
-  let(:event_id) { user_events.first.id }
+  let(:event) { user_events.first }
+  let(:event_id) { event.id }
 
   let!(:other_user_events) { create_list(:event, 10) }
-
 
   # authorize request
   let(:headers) { valid_headers }
@@ -26,14 +26,20 @@ RSpec.describe 'Events API', type: :request do
 
   describe 'POST /events' do
     let(:valid_attributes) {
-      { name: 'My awesome event', date: '2018-04-23T18:25:43.511Z' }.to_json
+      { name: 'My awesome event', date: '2018-04-23T18:25:43.511Z' }
     }
 
     context 'when the request is valid' do
-      before { post '/events', params: valid_attributes, headers: headers }
+      before { post '/events', params: valid_attributes.to_json, headers: headers }
 
       it 'creates a event' do
-        expect(json['name']).to eq('My awesome event')
+        expect(json).not_to be_empty
+
+        expect(json['id']).not_to be_nil
+        expect(Time.parse((json['date']).to_s)).to eq(valid_attributes[:date])
+        expect(json['name']).to eq(valid_attributes[:name])
+
+        expect(json['owner_id']).to be_nil
       end
 
       it 'returns status code 201' do
@@ -83,6 +89,10 @@ RSpec.describe 'Events API', type: :request do
         it 'returns the event' do
           expect(json).not_to be_empty
           expect(json['id']).to eq(event_id)
+          expect(Time.parse((json['date']).to_s)).to eq(event.date.utc.to_s)
+          expect(json['name']).to eq(event.name)
+
+          expect(json['owner_id']).to be_nil
         end
 
         it 'returns status code 200' do
@@ -126,7 +136,12 @@ RSpec.describe 'Events API', type: :request do
 
         it 'updates the record' do
           expect(json).not_to be_empty
+
           expect(json['id']).to eq(event_id)
+          expect(Time.parse((json['date']).to_s)).to eq(event[:date].utc.to_s)
+          expect(json['name']).to eq('The most awesome event')
+
+          expect(json['owner_id']).to be_nil
         end
 
         it 'returns status code 200' do
