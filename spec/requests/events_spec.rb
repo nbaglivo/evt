@@ -26,10 +26,14 @@ RSpec.describe 'Events API', type: :request do
 
   describe 'POST /events' do
     let(:valid_attributes) {
-      { name: 'My awesome event', date: '2018-04-23T18:25:43.511Z' }
+      {
+        name: 'My awesome event',
+        date: '2018-04-23T18:25:43.511Z',
+        attendees: [{ email: 'nico@nico.com' }]
+      }
     }
 
-    context 'when the request is valid' do
+    context 'when name, date and attendees are present' do
       before { post '/events', params: valid_attributes.to_json, headers: headers }
 
       it 'creates a event' do
@@ -38,6 +42,32 @@ RSpec.describe 'Events API', type: :request do
         expect(json['id']).not_to be_nil
         expect(Time.parse((json['date']).to_s)).to eq(valid_attributes[:date])
         expect(json['name']).to eq(valid_attributes[:name])
+        expect(json['attendees'].to_json).to eq([{ email: 'nico@nico.com' }].to_json)
+
+        expect(json['owner_id']).to be_nil
+      end
+
+      it 'returns status code 201' do
+        expect(response).to have_http_status(201)
+      end
+    end
+
+    context 'when attendees is missing' do
+      let(:valid_attributes) {
+        {
+          name: 'My awesome event',
+          date: '2018-04-23T18:25:43.511Z'
+        }
+      }
+      before { post '/events', params: valid_attributes.to_json, headers: headers }
+
+      it 'creates an event with no attendees' do
+        expect(json).not_to be_empty
+
+        expect(json['id']).not_to be_nil
+        expect(Time.parse((json['date']).to_s)).to eq(valid_attributes[:date])
+        expect(json['name']).to eq(valid_attributes[:name])
+        expect(json['attendees']).to eq([])
 
         expect(json['owner_id']).to be_nil
       end
@@ -91,6 +121,7 @@ RSpec.describe 'Events API', type: :request do
           expect(json['id']).to eq(event_id)
           expect(Time.parse((json['date']).to_s)).to eq(event.date.utc.to_s)
           expect(json['name']).to eq(event.name)
+          expect(json['attendees']).to eq([])
 
           expect(json['owner_id']).to be_nil
         end
@@ -127,7 +158,9 @@ RSpec.describe 'Events API', type: :request do
   end
 
   describe 'PUT /events/:id' do
-    let(:valid_attributes) { { name: 'The most awesome event' }.to_json }
+    let(:valid_attributes) {
+      { name: 'The most awesome event', attendees: [{ email: 'nico@nico.com' }] }.to_json
+    }
     before { put "/events/#{event_id}", params: valid_attributes, headers: headers }
 
     context 'when the record belongs to the authenticated user' do
@@ -140,6 +173,7 @@ RSpec.describe 'Events API', type: :request do
           expect(json['id']).to eq(event_id)
           expect(Time.parse((json['date']).to_s)).to eq(event[:date].utc.to_s)
           expect(json['name']).to eq('The most awesome event')
+          expect(json['attendees'].to_json).to eq([{ email: 'nico@nico.com' }].to_json)
 
           expect(json['owner_id']).to be_nil
         end

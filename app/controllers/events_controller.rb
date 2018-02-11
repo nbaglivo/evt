@@ -31,7 +31,7 @@ class EventsController < ApplicationController
   end
 
   def event_params
-    params.permit(:name, :date, :attendees)
+    params.permit(:name, :date, attendees: [:email, :first_name, :last_name])
   end
 
   def user_events

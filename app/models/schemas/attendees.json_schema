@@ -1,0 +1,15 @@
+{
+  "$schema": "http://json-schema.org/draft-06/schema#",
+  "title": "Attendee set",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "title": "Attendee",
+    "properties": {
+      "email": { "type": "string" },
+      "first_name": { "type": "string" },
+      "last_name": { "type": "string" }
+    },
+    "required": ["email"]
+  }
+}
