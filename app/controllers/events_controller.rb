@@ -1,5 +1,5 @@
 class EventsController < ApplicationController
-  before_action :set_event, only: [:show, :destroy]
+  before_action :set_event, only: [:show, :destroy, :update]
 
   def index
     json_response(user_events)
@@ -11,6 +11,11 @@ class EventsController < ApplicationController
   end
 
   def show
+    json_response(@event)
+  end
+
+  def update
+    @event.update(event_params)
     json_response(@event)
   end
 
