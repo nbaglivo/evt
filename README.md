@@ -1,24 +1,18 @@
-# README
+# Up and running
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+* Build container
+  `docker-compose build`
+* Run container
+  `docker-compose build`
+* Run tests
+  `docker-compose web rspec`  
+* check [the api](http://0.0.0.0:3000)
 
-Things you may want to cover:
+## Test with postman
 
-* Ruby version
+* Import the postman collection.
+* Sign up with the endpoint.
+* Copy the response token.
+* Select any other endpoint and use the token on the header Authorization:
 
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+    e.g: `Authorization Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJleHAiOjE1MTg2NDAwNTN9.QPsHLR780lNOhDyF00UTMhuKKBkQ0aQDCTPTUuzGYHA`
