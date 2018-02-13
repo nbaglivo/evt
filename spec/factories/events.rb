@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :event do
     name { Faker::Lorem.word }
     date { Faker::Date.between(2.days.ago, Date.today)  }

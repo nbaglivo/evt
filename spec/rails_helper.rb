@@ -49,8 +49,10 @@ RSpec.configure do |config|
   # arbitrary gems may also be filtered via:
   # config.filter_gems_from_backtrace("gem name")
 
-  # add `FactoryGirl` methods
-  config.include FactoryGirl::Syntax::Methods
+  # add `FactoryBot` methods
+  config.include FactoryBot::Syntax::Methods
+
+  FactoryBot.find_definitions if FactoryBot.factories.count == 0
 
   config.include RequestSpecHelper
   config.include ControllerSpecHelper
