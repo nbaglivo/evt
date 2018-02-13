@@ -12,4 +12,10 @@ class ApplicationController < ActionController::API
   def authorize_request
     @current_user = (AuthorizeApiRequest.new(request.headers).call)[:user]
   end
+
+  rescue_from(ActionController::ParameterMissing) do |parameter_missing_exception|
+
+    error = "#{Message.missing_parameter(parameter_missing_exception.param)}"
+    json_response(error, 422)
+  end
 end

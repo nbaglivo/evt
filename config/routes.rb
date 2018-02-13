@@ -4,7 +4,10 @@ Rails.application.routes.draw do
 
   get 'events', to: 'events#index'
   post 'events', to: 'events#create'
+
   get 'events/:id', to: 'events#show'
   put 'events/:id', to: 'events#update'
   delete 'events/:id', to: 'events#destroy'
+
+  post 'events/:id/check', to: 'events#check'
 end

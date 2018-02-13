@@ -121,7 +121,7 @@ RSpec.describe 'Events API', type: :request do
           expect(json['id']).to eq(event_id)
           expect(Time.parse((json['date']).to_s)).to eq(event.date.utc.to_s)
           expect(json['name']).to eq(event.name)
-          expect(json['attendees']).to eq([])
+          expect(json['attendees']).to eq([{ "email" => 'nico@nico.com'}])
 
           expect(json['owner_id']).to be_nil
         end
@@ -246,5 +246,71 @@ RSpec.describe 'Events API', type: :request do
       end
     end
 
+  end
+
+  describe 'POST /events/:id/check' do
+    let(:body) {
+      { email: 'nico@nico.com' }.to_json
+    }
+    before { post "/events/#{event_id}/check", params: body, headers: headers }
+
+    context 'when the record belongs to the authenticated user' do
+
+      context 'when the record exists' do
+
+        it 'updates the record with checked true' do
+          expect(json).not_to be_empty
+
+          expect(json['id']).to eq(event_id)
+
+          expect(json['attendees'].to_json).to eq([{ email: 'nico@nico.com', checked: true }].to_json)
+
+        end
+
+        it 'returns status code 200' do
+          expect(response).to have_http_status(200)
+        end
+      end
+
+      context 'when the record does not belong to the authenticated user' do
+        let(:event_id) { other_user_events.first.id }
+
+        it 'returns status code 404' do
+          expect(response).to have_http_status(404)
+        end
+
+        it 'returns a not found message' do
+          expect(response.body).to match(/Couldn't find Event/)
+        end
+      end
+
+    end
+
+    context 'when email is missing' do
+      let(:body) {
+        { }.to_json
+      }
+
+      it 'returns status code 422' do
+        expect(response).to have_http_status(422)
+      end
+
+      it 'returns a validation failure message' do
+        expect(response.body)
+          .to match(/Validation failed: email is required/)
+      end
+    end
+
+    context 'when the record does not exist' do
+      let(:event_id) { 100 }
+
+      it 'returns status code 404' do
+        expect(response).to have_http_status(404)
+      end
+
+      it 'returns a not found message' do
+        expect(response.body).to match(/Couldn't find Event/)
+      end
+    end
   end
 end
