@@ -6,6 +6,14 @@ class ApplicationController < ActionController::API
   before_action :authorize_request
   attr_reader :current_user
 
+  def user_events
+    Event.where(owner_id: current_user.id)
+  end
+
+  def set_event
+    @event = user_events.find(params[:id])
+  end
+
   private
 
   # Check for valid request token and return user
