@@ -15,7 +15,7 @@ class EventsController < ApplicationController
   end
 
   def update
-    @event.update(event_params)
+    @event.update!(event_params)
     json_response(event_serializer(@event))
   end
 
