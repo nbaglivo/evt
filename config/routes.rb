@@ -12,4 +12,5 @@ Rails.application.routes.draw do
   post 'events/:id/check', to: 'events#check'
 
   get 'events/:id/validation_rules', to: 'validation_rules#index'
+  post 'events/:id/validation_rules', to: 'validation_rules#create'
 end
