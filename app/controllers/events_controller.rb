@@ -25,9 +25,7 @@ class EventsController < ApplicationController
   end
 
   def check
-    attendee = @event.attendees.detect{|attendee| attendee["email"] == email_param_for_check }
-    attendee[:checked] = true if attendee
-    @event.save
+    @event.checkIn(email_param_for_check)
     json_response(event_serializer(@event))
   end
 
@@ -53,4 +51,5 @@ class EventsController < ApplicationController
   def set_event
     @event = user_events.find(params[:id])
   end
+
 end

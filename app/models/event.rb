@@ -7,4 +7,23 @@ class Event < ApplicationRecord
   # validation
   validates_presence_of :name, :date
   validates :attendees, json: { message: -> (errors) { errors }, schema: ATTENDEE_JSON_SCHEMA }
+
+  def checkIn(email)
+    attendee = attendees.detect{ |attendee| attendee['email'] == email }
+
+    return false unless attendee
+
+    runAttendeeValidations(attendee['data']) if attendee['data']
+    attendee[:checked] = true
+    save
+
+    return true
+  end
+
+  private
+
+  def runAttendeeValidations(attendee_data)
+    validation_rules.each{ |rule| rule.validate(attendee_data) }
+  end
+
 end
