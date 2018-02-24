@@ -7,8 +7,21 @@
     "title": "Attendee",
     "properties": {
       "email": { "type": "string" },
-      "first_name": { "type": "string" },
-      "last_name": { "type": "string" }
+      "data": {
+        "type": "object",
+        "title": "Attendee data",
+        "properties": {
+          "patternProperties": {
+            "^.*$": {
+              "anyOf": [
+                {"type": "string"},
+                {"type": "null"}
+              ]
+            }
+          },
+          "additionalProperties": false
+        }
+      }
     },
     "required": ["email"]
   }

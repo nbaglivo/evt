@@ -42,7 +42,8 @@ class EventsController < ApplicationController
   end
 
   def event_params
-    params.permit(:name, :date, attendees: [:email, :first_name, :last_name])
+    data_keys = params[:attendees].collect{ |attendee| attendee[:data].try(:keys) } if params[:attendees]
+    params.permit(:name, :date, attendees: [:email, data: data_keys])
   end
 
   def user_events
