@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180127230837) do
+ActiveRecord::Schema.define(version: 20180224133307) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -20,7 +20,7 @@ ActiveRecord::Schema.define(version: 20180127230837) do
     t.datetime "date"
     t.datetime "created_at",              null: false
     t.datetime "updated_at",              null: false
-    t.json     "attendees", default: []
+    t.json     "attendees",  default: []
     t.integer  "owner_id"
     t.index ["owner_id"], name: "index_events_on_owner_id", using: :btree
   end
@@ -31,7 +31,20 @@ ActiveRecord::Schema.define(version: 20180127230837) do
     t.string   "password_digest"
     t.datetime "created_at",      null: false
     t.datetime "updated_at",      null: false
+    t.index ["email"], name: "index_users_on_email", unique: true, using: :btree
+  end
+
+  create_table "validation_rules", force: :cascade do |t|
+    t.string   "name"
+    t.string   "failure_message"
+    t.string   "validation_type"
+    t.string   "user_field"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+    t.integer  "event_id"
+    t.index ["event_id"], name: "index_validation_rules_on_event_id", using: :btree
   end
 
   add_foreign_key "events", "users", column: "owner_id"
+  add_foreign_key "validation_rules", "events"
 end
