@@ -15,7 +15,7 @@ module ExceptionHandler
     rescue_from ValidationRule::InvalidAttendee, with: :four_twenty_two
 
     rescue_from ActiveRecord::RecordNotFound do |e|
-      json_response({ message: e.message }, :not_found)
+      json_response({ message: "Couldn\'t find #{e.model}" }, :not_found)
     end
   end
 
