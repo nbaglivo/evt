@@ -118,4 +118,29 @@ RSpec.describe 'ValidationRule API', type: :request do
 
   end
 
+  describe 'DELETE /events/:id/validation_rules/:validation_rule_id' do
+
+    context 'when the validation rule exists' do
+      let!(:validation_rule_id) { create(:validation_rule, event: event).id }
+
+      before { delete "/events/#{event_id}/validation_rules/#{validation_rule_id}", params: {}, headers: headers }
+
+      it 'returns status code 204' do
+        expect(response).to have_http_status(204)
+      end
+    end
+
+    context 'when the validation rule does not exist' do
+      before { delete "/events/#{event_id}/validation_rules/10000", params: {}, headers: headers }
+
+      it 'returns status code 404' do
+        expect(response).to have_http_status(404)
+      end
+
+      it 'returns a not found message' do
+        expect(response.body).to match(/Couldn't find ValidationRule/)
+      end
+    end
+
+  end
 end

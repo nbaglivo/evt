@@ -13,4 +13,6 @@ Rails.application.routes.draw do
 
   get 'events/:id/validation_rules', to: 'validation_rules#index'
   post 'events/:id/validation_rules', to: 'validation_rules#create'
+
+  delete 'events/:id/validation_rules/:validation_rule_id', to: 'validation_rules#destroy'
 end
