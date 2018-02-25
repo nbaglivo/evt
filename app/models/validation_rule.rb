@@ -5,6 +5,7 @@ class ValidationRule < ApplicationRecord
   belongs_to :event
 
   validates_presence_of :validation_type, :user_field, :failure_message
+  validates_inclusion_of :validation_type, in: ['is_true', 'is_more_than_zero']
 
   def is_true(value)
     value == true

@@ -14,6 +14,11 @@ RSpec.describe ValidationRule, type: :model do
     it { should validate_presence_of(:validation_type) }
     it { should validate_presence_of(:user_field) }
     it { should validate_presence_of(:failure_message) }
+
+    it { should allow_value('is_true').for(:validation_type) }
+    it { should allow_value('is_more_than_zero').for(:validation_type) }
+    it { should_not allow_value('is_some_not_allowed_test').for(:validation_type) }
+
     it { should belong_to(:event) }
   end
 
