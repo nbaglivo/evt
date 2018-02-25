@@ -82,6 +82,89 @@
 			"description": "",
 			"item": [
 				{
+					"name": "validation rules",
+					"description": "",
+					"item": [
+						{
+							"name": "Get",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{auth_token}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://0.0.0.0:3000/events/4/validation_rules",
+									"protocol": "http",
+									"host": [
+										"0",
+										"0",
+										"0",
+										"0"
+									],
+									"port": "3000",
+									"path": [
+										"events",
+										"4",
+										"validation_rules"
+									]
+								},
+								"description": ""
+							},
+							"response": []
+						},
+						{
+							"name": "Create",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{auth_token}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"name\": \"paid\",\n\t\"validation_type\": \"is_true\",\n\t\"user_field\": \"paid\",\n\t\"failure_message\": \"The attendee didn't pay\"\n}"
+								},
+								"url": {
+									"raw": "http://0.0.0.0:3000/events/5/validation_rules",
+									"protocol": "http",
+									"host": [
+										"0",
+										"0",
+										"0",
+										"0"
+									],
+									"port": "3000",
+									"path": [
+										"events",
+										"5",
+										"validation_rules"
+									]
+								},
+								"description": ""
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
+				},
+				{
 					"name": "Create",
 					"request": {
 						"method": "POST",
@@ -92,12 +175,12 @@
 							},
 							{
 								"key": "Authorization",
-								"value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoyLCJleHAiOjE1MTcxNzkzMjB9.5-_Ad69GOBnobQHg63vTKDAOA5cGRFB3Qh8sGlTpBTk"
+								"value": "Bearer {{auth_token}}"
 							}
 						],
 						"body": {
 							"mode": "raw",
-							"raw": " {\n    \"name\": \"lalala\",\n    \"date\": \"2018-04-19T17:05:53.000Z\"\n}"
+							"raw": " {\n    \"name\": \"Aweomse Event\",\n    \"date\": \"2018-04-19T17:05:53.000Z\"\n}"
 						},
 						"url": {
 							"raw": "http://0.0.0.0:3000/events",
@@ -128,7 +211,7 @@
 							},
 							{
 								"key": "Authorization",
-								"value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoyLCJleHAiOjE1MTcxNzkzMjB9.5-_Ad69GOBnobQHg63vTKDAOA5cGRFB3Qh8sGlTpBTk"
+								"value": "Bearer {{auth_token}}"
 							}
 						],
 						"body": {
@@ -154,44 +237,6 @@
 					"response": []
 				},
 				{
-					"name": "Check",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							},
-							{
-								"key": "Authorization",
-								"value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoyLCJleHAiOjE1MTcxNzkzMjB9.5-_Ad69GOBnobQHg63vTKDAOA5cGRFB3Qh8sGlTpBTk"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n\t\"code\": \"12345t\"\n}"
-						},
-						"url": {
-							"raw": "http://0.0.0.0:3000/events/2/check",
-							"protocol": "http",
-							"host": [
-								"0",
-								"0",
-								"0",
-								"0"
-							],
-							"port": "3000",
-							"path": [
-								"events",
-								"2",
-								"check"
-							]
-						},
-						"description": ""
-					},
-					"response": []
-				},
-				{
 					"name": "Get",
 					"request": {
 						"method": "GET",
@@ -202,7 +247,7 @@
 							},
 							{
 								"key": "Authorization",
-								"value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoyLCJleHAiOjE1MTcxNzkzMjB9.5-_Ad69GOBnobQHg63vTKDAOA5cGRFB3Qh8sGlTpBTk"
+								"value": "Bearer {{auth_token}}"
 							}
 						],
 						"body": {
@@ -239,15 +284,15 @@
 							},
 							{
 								"key": "Authorization",
-								"value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoyLCJleHAiOjE1MTcxNzkzMjB9.5-_Ad69GOBnobQHg63vTKDAOA5cGRFB3Qh8sGlTpBTk"
+								"value": "Bearer {{auth_token}}"
 							}
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"name\": \"12345t\",\n\t\"attendees\": [{ \"email\": \"Canada\" }]\n}"
+							"raw": "{\n\t\"name\": \"Really awesome event\",\n\t\"attendees\": [\n\t\t{\n\t\t\t\"email\": \"nico@nico.com\",\n\t\t\t\"data\": { \"paid\": false }\n\t\t},\n\t\t{\n\t\t\t\"email\": \"nico@fashion.cloud\",\n\t\t\t\"data\": { \"vip\": true }\n\t\t}\n\t]\n}"
 						},
 						"url": {
-							"raw": "http://0.0.0.0:3000/events/2",
+							"raw": "http://0.0.0.0:3000/events/3/",
 							"protocol": "http",
 							"host": [
 								"0",
@@ -258,7 +303,8 @@
 							"port": "3000",
 							"path": [
 								"events",
-								"2"
+								"3",
+								""
 							]
 						},
 						"description": ""
@@ -276,12 +322,12 @@
 							},
 							{
 								"key": "Authorization",
-								"value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoyLCJleHAiOjE1MTcxNzkzMjB9.5-_Ad69GOBnobQHg63vTKDAOA5cGRFB3Qh8sGlTpBTk"
+								"value": "Bearer {{auth_token}}"
 							}
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"code\": \"12345t\"\n}"
+							"raw": ""
 						},
 						"url": {
 							"raw": "http://0.0.0.0:3000/events/2",
@@ -313,15 +359,15 @@
 							},
 							{
 								"key": "Authorization",
-								"value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJleHAiOjE1MTg2NDAwNTN9.QPsHLR780lNOhDyF00UTMhuKKBkQ0aQDCTPTUuzGYHA"
+								"value": "Bearer {{auth_token}}"
 							}
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"email\": \"Canada\"\n}"
+							"raw": "{\n\t\"email\": \"nico@fashion.cloud\"\n}"
 						},
 						"url": {
-							"raw": "http://0.0.0.0:3000/events/2/check",
+							"raw": "http://0.0.0.0:3000/events/4/check",
 							"protocol": "http",
 							"host": [
 								"0",
@@ -332,7 +378,7 @@
 							"port": "3000",
 							"path": [
 								"events",
-								"2",
+								"4",
 								"check"
 							]
 						},
