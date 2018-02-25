@@ -20,43 +20,46 @@ RSpec.describe ValidationRule, type: :model do
     it { should_not allow_value('is_some_not_allowed_test').for(:validation_type) }
 
     it { should belong_to(:event) }
+
+    it { should allow_value('is_true').for(:validation_type) }
+    it { should_not allow_value('is_some_not_allowed_test').for(:validation_type) }
   end
 
   describe 'Validation methods' do
 
     describe 'is_true method' do
       it 'should return true if the value is true' do
-        expect(subject.is_true(true)).to be true
+        expect(ValidationRule.is_true(true)).to be true
       end
 
       it 'should return false if the value is false' do
-        expect(subject.is_true(false)).to be false
+        expect(ValidationRule.is_true(false)).to be false
       end
 
       it 'should return false if the value is not a boolean' do
-        expect(subject.is_true('true')).to be false
+        expect(ValidationRule.is_true('true')).to be false
       end
     end
 
     describe 'is_more_than_zero method' do
       it 'should return true if value is more than zero' do
-        expect(subject.is_more_than_zero(2)).to be true
+        expect(ValidationRule.is_more_than_zero(2)).to be true
       end
 
       it 'should return true if the value is more than zero even if it is a float number' do
-        expect(subject.is_more_than_zero(1.5)).to be true
+        expect(ValidationRule.is_more_than_zero(1.5)).to be true
       end
 
       it 'should return false if the value is zero' do
-        expect(subject.is_more_than_zero(0)).to be false
+        expect(ValidationRule.is_more_than_zero(0)).to be false
       end
 
       it 'should return false if the value is less than zero' do
-        expect(subject.is_more_than_zero(-1)).to be false
+        expect(ValidationRule.is_more_than_zero(-1)).to be false
       end
 
       it 'should return false if the value is not a number' do
-        expect(subject.is_more_than_zero('20')).to be false
+        expect(ValidationRule.is_more_than_zero('20')).to be false
       end
     end
 
@@ -74,7 +77,7 @@ RSpec.describe ValidationRule, type: :model do
       end
 
       it 'should check that the value is true when validation type is is_true' do
-        expect(subject).to receive(:is_true).and_call_original
+        expect(ValidationRule).to receive(:is_true).and_call_original
         subject.validate(user_data)
       end
 
@@ -83,7 +86,7 @@ RSpec.describe ValidationRule, type: :model do
           validation_type: 'is_more_than_zero',
           user_field: 'some_numeric_field'
         )
-        expect(isMoreThanZeroRule).to receive(:is_more_than_zero).and_call_original
+        expect(ValidationRule).to receive(:is_more_than_zero).and_call_original
         isMoreThanZeroRule.validate(user_data)
       end
 
